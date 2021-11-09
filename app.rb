@@ -149,7 +149,7 @@ end
 
 post '/enclosure/:enclosure_id/slot/:slot/toggle_locate' do
   id_tuple = get_id_tuple(params[:enclosure_id])
-  slot = params[:slot].to_i.to_s # sanitization
+  slot = params[:slot].to_i # sanitization
   slot_path = get_slot_path(id_tuple, slot)
   current = File.read(slot_path + "locate").to_i
   puts "Toggle locate current value: #{current}"
