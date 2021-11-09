@@ -78,12 +78,16 @@ def get_pretty_enclosures
 end
 
 def get_slot_path(id_tuple, slot)
-  "/sys/class/enclosure/#{id_tuple}/Slot#{slot.rjust(2,'0')}/"
+  enclosure_path = "/sys/class/enclosure/#{id_tuple}/"
+  slot_template = Dir.entries(enclosure_path).filter {|e| e.match("Slot")}.sort.first
+  base = slot_template.match(/\d+/)[0].to_i
+  slot_id = slot_template.gsub(/\d+/, (slot + base).to_s.rjust(2, '0'))
+  "/sys/class/enclosure/#{id_tuple}/#{slot_id}/"
 end
 
 def get_pretty_slots(id_tuple, enclosure)
   enclosure[:sub_enclosures].flat_map {|se| se[:elements]}.map do |disk|
-    slot = disk[:values]["device slot number"]
+    slot = disk[:values]["device slot number"].to_i
     device = disk[:values]["disk"]
     slot_path = get_slot_path(id_tuple, slot)
     slot_info = Hash[Dir.glob(slot_path + '*').filter { |e| File.file? e }.map do |f|
@@ -126,7 +130,7 @@ get '/' do
 
       #{
         display_list(enclosure[:slots].map do |slot|
-          "<h3>#{slot[:slot]}: #{slot[:device]} #{toggle_locate_button(name, slot[:slot])}</h3>" +
+          "<h3>#{slot[:slot] + 1}: #{slot[:device]} #{toggle_locate_button(name, slot[:slot])}</h3>" +
             display_list(slot[:slot_info].map do |key, value|
               "#{key}: #{value}"
             end, "inline")

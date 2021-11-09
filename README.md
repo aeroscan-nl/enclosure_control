@@ -26,8 +26,5 @@ bundle exec ruby app.rb
 
 The service will start on port 4567.
 
-The locate button doesn't seem to do anything, not sure why maybe it will work for you, but you should get information about
-which drive is in which slot at least. Let me know if it works for you by submitting an issue!
-
-
+The locate button doesn't work on some older enclosures it seems.
 
