@@ -31,6 +31,9 @@ end
 
 def get_enclosure(id)
   all_info = `sg_ses /dev/#{escape id} -p 0xa` #TODO security vuln
+
+  return { info: "No device", sub_enclosures: [] } if all_info.empty?
+
   main, elements = *all_info.split("additional element status descriptor list")
 
   {

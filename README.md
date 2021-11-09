@@ -10,7 +10,7 @@ It has been tested to work with SuperMicro chassis, notable with LSI backplanes.
 Dependencies
 ------------
 
-Dependencies are ruby, ruby-dev, ruby-bundler and build-essential and SCSI tools `lsscsci` and `sg_map`.
+Dependencies are ruby, ruby-dev, ruby-bundler and build-essential and SCSI tools `lsscsci` and `sg3-utils`.
 
 Running
 ------
@@ -21,7 +21,7 @@ To run execute the following as a privileged (needs access to `/etc`, `/sys` and
 
 ```
 bundle install
-bundle exec app.rb
+bundle exec ruby app.rb
 ```
 
 The service will start on port 4567.
